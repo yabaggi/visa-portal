@@ -72,10 +72,11 @@ function getDefaultFieldConfig() {
   ];
 }
 
+
 function getFieldSettings() {
   try {
     var ss = SpreadsheetApp.openById(SS_ID);
-    var sheet = ss.getSheetByName("Settings");
+    var sheet = ss.getSheetByName("FieldSettings");
     if (!sheet || sheet.getLastRow() < 2) return getDefaultFieldConfig();
     var data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getDisplayValues();
     var result = [];
@@ -88,12 +89,13 @@ function getFieldSettings() {
   }
 }
 
+
 function saveFieldSettings(settings) {
   try {
     var ss = SpreadsheetApp.openById(SS_ID);
-    var sheet = ss.getSheetByName("Settings");
+    var sheet = ss.getSheetByName("FieldSettings");
     if (!sheet) {
-      sheet = ss.insertSheet("Settings");
+      sheet = ss.insertSheet("FieldSettings");
       sheet.appendRow(["FieldID", "Visible", "Required"]);
       sheet.getRange(1, 1, 1, 3).setFontWeight("bold");
     }
@@ -106,6 +108,7 @@ function saveFieldSettings(settings) {
     return {success: false, error: e.toString()};
   }
 }
+
 
 function generateAppId() {
   return "VIS-" + new Date().getFullYear() + "-" + Math.random().toString(36).substr(2, 8).toUpperCase();
@@ -475,4 +478,5 @@ function deleteApplication(appId) {
     return {success: false, error: err.toString()};
   }
 }
+
 
