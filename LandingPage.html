@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -27,6 +27,56 @@
     color:#fff;
     min-height:100vh;
     overflow-x:hidden;
+  }
+
+  /* ── RTL Support ── */
+  html[dir="rtl"] body{
+    font-family:'Segoe UI',Tahoma,'Noto Sans Arabic','Droid Arabic Kufi',sans-serif;
+  }
+  html[dir="rtl"] .card-btn svg{
+    transform:rotate(180deg);
+  }
+
+  /* ── Language Toggle ── */
+  .lang-toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:100;
+    display:flex;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:30px;
+    overflow:hidden;
+    animation:fadeDown 0.8s ease;
+  }
+
+  html[dir="rtl"] .lang-toggle{
+    right:auto;
+    left:20px;
+  }
+
+  .lang-btn{
+    padding:8px 18px;
+    font-size:13px;
+    font-weight:600;
+    border:none;
+    cursor:pointer;
+    background:transparent;
+    color:rgba(255,255,255,0.5);
+    transition:all 0.3s;
+    letter-spacing:0.5px;
+  }
+
+  .lang-btn.active{
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+  }
+
+  .lang-btn:hover:not(.active){
+    color:rgba(255,255,255,0.8);
   }
 
   /* ── Hero Section ── */
@@ -88,6 +138,10 @@
     animation:fadeDown 0.8s ease;
   }
 
+  html[dir="rtl"] .org-badge{
+    padding:10px 14px 10px 24px;
+  }
+
   .org-logo{
     width:40px;
     height:40px;
@@ -118,6 +172,10 @@
     color:rgba(255,255,255,0.9);
   }
 
+  html[dir="rtl"] .org-name{
+    letter-spacing:0;
+  }
+
   /* ── Typography ── */
   .hero-title{
     font-size:clamp(32px,6vw,56px);
@@ -131,6 +189,10 @@
     animation:fadeDown 0.8s ease 0.15s both;
   }
 
+  html[dir="rtl"] .hero-title{
+    line-height:1.4;
+  }
+
   .hero-subtitle{
     font-size:clamp(16px,2.5vw,20px);
     color:rgba(255,255,255,0.65);
@@ -138,6 +200,10 @@
     max-width:600px;
     margin:0 auto 16px;
     animation:fadeDown 0.8s ease 0.3s both;
+  }
+
+  html[dir="rtl"] .hero-subtitle{
+    line-height:1.8;
   }
 
   /* ── Announcement ── */
@@ -297,6 +363,10 @@
     margin-top:4px;
     text-transform:uppercase;
     letter-spacing:1px;
+  }
+
+  html[dir="rtl"] .stat-label{
+    letter-spacing:0;
   }
 
   /* ── Footer ── */
@@ -493,10 +563,18 @@
     .portal-card{width:100%;max-width:340px;}
     .stats-bar{gap:24px;}
     .stat-number{font-size:24px;}
+    .lang-toggle{top:12px;right:12px;}
+    html[dir="rtl"] .lang-toggle{right:auto;left:12px;}
   }
 </style>
 </head>
 <body>
+
+<!-- Language Toggle -->
+<div class="lang-toggle">
+  <button class="lang-btn active" id="langEN" onclick="switchLang('en')">EN</button>
+  <button class="lang-btn" id="langAR" onclick="switchLang('ar')">عربي</button>
+</div>
 
 <div class="hero">
   <!-- Background -->
@@ -531,9 +609,9 @@
           <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="3"/><line x1="2" y1="9" x2="22" y2="9"/><circle cx="8" cy="15" r="2"/><line x1="14" y1="13" x2="19" y2="13"/><line x1="14" y1="16" x2="18" y2="16"/></svg>
         </div>
         <h3 class="card-title" id="portalBtnText">Apply for Visa</h3>
-        <p class="card-desc">Submit your visa application online with our streamlined digital process</p>
+        <p class="card-desc" id="portalDesc">Submit your visa application online with our streamlined digital process</p>
         <span class="card-btn visa-btn">
-          Get Started
+          <span id="portalGetStarted">Get Started</span>
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </span>
       </div>
@@ -544,9 +622,9 @@
           <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
         </div>
         <h3 class="card-title" id="adminBtnText">Admin Portal</h3>
-        <p class="card-desc">Manage applications, review submissions, and control system settings</p>
+        <p class="card-desc" id="adminDesc">Manage applications, review submissions, and control system settings</p>
         <span class="card-btn admin-btn">
-          Sign In
+          <span id="adminSignIn">Sign In</span>
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </span>
       </div>
@@ -556,19 +634,19 @@
     <div class="stats-bar">
       <div class="stat-item">
         <div class="stat-number">24/7</div>
-        <div class="stat-label">Available</div>
+        <div class="stat-label" id="statAvailable">Available</div>
       </div>
       <div class="stat-item">
         <div class="stat-number">100%</div>
-        <div class="stat-label">Digital</div>
+        <div class="stat-label" id="statDigital">Digital</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">Fast</div>
-        <div class="stat-label">Processing</div>
+        <div class="stat-number" id="statFastNum">Fast</div>
+        <div class="stat-label" id="statProcessing">Processing</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">Secure</div>
-        <div class="stat-label">& Encrypted</div>
+        <div class="stat-number" id="statSecureNum">Secure</div>
+        <div class="stat-label" id="statEncrypted">& Encrypted</div>
       </div>
     </div>
   </div>
@@ -581,69 +659,142 @@
 <div class="modal-overlay" id="passwordModal">
   <div class="modal-box">
     <div class="modal-icon">🔐</div>
-    <h3 class="modal-title">Admin Access</h3>
-    <p class="modal-desc">Enter the administrator password to continue</p>
+    <h3 class="modal-title" id="modalTitle">Admin Access</h3>
+    <p class="modal-desc" id="modalDesc">Enter the administrator password to continue</p>
     <input type="password" class="modal-input" id="adminPwdInput" placeholder="••••••••" maxlength="50" onkeydown="if(event.key==='Enter')verifyPassword();" oninput="clearError();">
     <div class="modal-error" id="pwdError"></div>
     <div class="modal-btns">
-      <button class="modal-btn cancel" onclick="hidePasswordModal()">Cancel</button>
+      <button class="modal-btn cancel" onclick="hidePasswordModal()" id="modalCancel">Cancel</button>
       <button class="modal-btn submit" id="pwdSubmitBtn" onclick="verifyPassword()">Access</button>
     </div>
   </div>
 </div>
 
 <script>
-  <!-- var BASE_URL = '';
+  var APP_URL = '';
   var settings = {};
+  var allSettings = { en: {}, ar: {} };
+  var currentLang = 'en';
 
-  // Get the base URL of this web app
-  function getBaseUrl() {
-    var url = window.location.href;
-    // Remove any query parameters
-    var idx = url.indexOf('?');
-    if (idx > -1) url = url.substring(0, idx);
-    return url;
-  }
--->
-  // Initialize
-  
-  
-    var APP_URL = '';
+  // Static UI translations (for elements not in admin settings)
+  var uiStrings = {
+    en: {
+      portalDesc: 'Submit your visa application online with our streamlined digital process',
+      adminDesc: 'Manage applications, review submissions, and control system settings',
+      getStarted: 'Get Started',
+      signIn: 'Sign In',
+      statAvailable: 'Available',
+      statDigital: 'Digital',
+      statFast: 'Fast',
+      statProcessing: 'Processing',
+      statSecure: 'Secure',
+      statEncrypted: '& Encrypted',
+      modalTitle: 'Admin Access',
+      modalDesc: 'Enter the administrator password to continue',
+      modalCancel: 'Cancel',
+      modalAccess: 'Access',
+      modalVerifying: 'Verifying...',
+      modalPwdEmpty: 'Please enter a password',
+      modalPwdWrong: 'Incorrect password'
+    },
+    ar: {
+      portalDesc: 'قدّم طلب التأشيرة إلكترونياً عبر نظامنا الرقمي المبسّط',
+      adminDesc: 'إدارة الطلبات ومراجعتها والتحكم في إعدادات النظام',
+      getStarted: 'ابدأ الآن',
+      signIn: 'تسجيل الدخول',
+      statAvailable: 'متاح',
+      statDigital: 'رقمي',
+      statFast: 'سريع',
+      statProcessing: 'المعالجة',
+      statSecure: 'آمن',
+      statEncrypted: 'ومشفّر',
+      modalTitle: 'دخول الإدارة',
+      modalDesc: 'أدخل كلمة مرور المسؤول للمتابعة',
+      modalCancel: 'إلغاء',
+      modalAccess: 'دخول',
+      modalVerifying: 'جارٍ التحقق...',
+      modalPwdEmpty: 'يرجى إدخال كلمة المرور',
+      modalPwdWrong: 'كلمة المرور غير صحيحة'
+    }
+  };
 
+  // ── Initialize ──
   (function init() {
     createParticles();
 
-    // Get the web app URL from server
     google.script.run
-      .withSuccessHandler(function(url) {
-        APP_URL = url;
-      })
+      .withSuccessHandler(function(url) { APP_URL = url; })
       .getWebAppUrl();
 
-    // Load settings
+    // Load both EN and AR settings in one call
     google.script.run
       .withSuccessHandler(function(s) {
-        settings = s || {};
+        allSettings.en = (s && s.en) || {};
+        allSettings.ar = (s && s.ar) || {};
+        settings = allSettings.en;
         applySettings();
       })
       .withFailureHandler(function() {
         applySettings();
       })
-      .getLandingSettings();
+      .getAllLandingSettings();
   })();
 
-  function goToPortal() {
-    if (APP_URL) {
-      window.open(APP_URL + '?page=portal', '_top');
+  // ── Language Switching ──
+  function switchLang(lang) {
+    currentLang = lang;
+
+    // Toggle button states
+    document.getElementById('langEN').classList.toggle('active', lang === 'en');
+    document.getElementById('langAR').classList.toggle('active', lang === 'ar');
+
+    // Set direction
+    var html = document.documentElement;
+    if (lang === 'ar') {
+      html.setAttribute('dir', 'rtl');
+      html.setAttribute('lang', 'ar');
+    } else {
+      html.setAttribute('dir', 'ltr');
+      html.setAttribute('lang', 'en');
     }
+
+    // Merge: AR overrides EN for text fields, EN stays for colors/images/password
+    if (lang === 'ar') {
+      settings = {};
+      // Start with EN (has colors, images, password, etc.)
+      for (var k in allSettings.en) { settings[k] = allSettings.en[k]; }
+      // Override text fields with AR values (only if non-empty)
+      var textKeys = ['orgName','tagline','heroTitle','heroSubtitle','portalButtonText',
+                      'adminButtonText','footerText','announcementText'];
+      for (var i = 0; i < textKeys.length; i++) {
+        var key = textKeys[i];
+        if (allSettings.ar[key]) settings[key] = allSettings.ar[key];
+      }
+    } else {
+      settings = allSettings.en;
+    }
+
+    applySettings();
+    applyUIStrings();
   }
 
-  function goToAdmin() {
-    if (APP_URL) {
-      window.open(APP_URL + '?page=admin', '_top');
-    }
+  function applyUIStrings() {
+    var s = uiStrings[currentLang];
+    document.getElementById('portalDesc').textContent = s.portalDesc;
+    document.getElementById('adminDesc').textContent = s.adminDesc;
+    document.getElementById('portalGetStarted').textContent = s.getStarted;
+    document.getElementById('adminSignIn').textContent = s.signIn;
+    document.getElementById('statAvailable').textContent = s.statAvailable;
+    document.getElementById('statDigital').textContent = s.statDigital;
+    document.getElementById('statFastNum').textContent = s.statFast;
+    document.getElementById('statProcessing').textContent = s.statProcessing;
+    document.getElementById('statSecureNum').textContent = s.statSecure;
+    document.getElementById('statEncrypted').textContent = s.statEncrypted;
+    document.getElementById('modalTitle').textContent = s.modalTitle;
+    document.getElementById('modalDesc').textContent = s.modalDesc;
+    document.getElementById('modalCancel').textContent = s.modalCancel;
+    document.getElementById('pwdSubmitBtn').textContent = s.modalAccess;
   }
-  
 
   function applySettings() {
     var s = settings;
@@ -653,10 +804,12 @@
 
     // Logo
     var logoWrap = document.getElementById('orgLogoWrap');
-    if (s.logoUrl) {
-      logoWrap.innerHTML = '<img class="org-logo" src="' + s.logoUrl + '" onerror="this.outerHTML=\'<div class=org-logo-placeholder>' + (s.orgName || 'V').charAt(0) + '</div>\'">';
+    var logoUrl = s.logoUrl || allSettings.en.logoUrl;
+    var orgChar = (s.orgName || 'V').charAt(0);
+    if (logoUrl) {
+      logoWrap.innerHTML = '<img class="org-logo" src="' + logoUrl + '" onerror="this.outerHTML=\'<div class=org-logo-placeholder>' + orgChar + '</div>\'">';
     } else {
-      logoWrap.innerHTML = '<div class="org-logo-placeholder">' + (s.orgName || 'V').charAt(0) + '</div>';
+      logoWrap.innerHTML = '<div class="org-logo-placeholder">' + orgChar + '</div>';
     }
 
     // Hero
@@ -664,9 +817,10 @@
     document.getElementById('heroSubtitle').textContent = s.heroSubtitle || 'Fast, secure, and transparent visa processing for travelers worldwide';
 
     // Hero background image
-    if (s.heroImageUrl) {
+    var heroUrl = s.heroImageUrl || allSettings.en.heroImageUrl;
+    if (heroUrl) {
       var img = document.getElementById('heroBgImg');
-      img.src = s.heroImageUrl;
+      img.src = heroUrl;
       img.style.display = 'block';
     }
 
@@ -675,26 +829,34 @@
     document.getElementById('adminBtnText').textContent = s.adminButtonText || 'Admin Portal';
 
     // Announcement
-    if (s.announcementText) {
-      var ann = document.getElementById('announcement');
-      ann.textContent = s.announcementText;
+    var annText = s.announcementText;
+    var ann = document.getElementById('announcement');
+    if (annText) {
+      ann.textContent = annText;
       ann.style.display = 'inline-block';
+    } else {
+      ann.style.display = 'none';
     }
 
     // Footer
     document.getElementById('footerText').textContent = s.footerText || '© 2026 Visa Portal';
 
-    // Colors
-    if (s.primaryColor) document.documentElement.style.setProperty('--primary', s.primaryColor);
-    if (s.accentColor) document.documentElement.style.setProperty('--accent', s.accentColor);
+    // Colors (always from EN)
+    var pc = allSettings.en.primaryColor || s.primaryColor;
+    var ac = allSettings.en.accentColor || s.accentColor;
+    if (pc) document.documentElement.style.setProperty('--primary', pc);
+    if (ac) document.documentElement.style.setProperty('--accent', ac);
 
     // Update page title
     document.title = (s.orgName || 'Visa') + ' — Visa Portal';
+
+    // Apply UI strings for current language
+    applyUIStrings();
   }
-  
-  
-    function goToPortal() {
-    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#fff;font-size:18px;">Loading Visa Portal...</div>';
+
+  // ── Navigation ──
+  function goToPortal() {
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#fff;font-size:18px;">' + (currentLang === 'ar' ? 'جارٍ تحميل بوابة التأشيرة...' : 'Loading Visa Portal...') + '</div>';
     google.script.run
       .withSuccessHandler(function(html) {
         document.open();
@@ -708,7 +870,7 @@
   }
 
   function goToAdmin() {
-    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#fff;font-size:18px;">Loading Admin Portal...</div>';
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#fff;font-size:18px;">' + (currentLang === 'ar' ? 'جارٍ تحميل بوابة الإدارة...' : 'Loading Admin Portal...') + '</div>';
     google.script.run
       .withSuccessHandler(function(html) {
         document.open();
@@ -720,7 +882,6 @@
       })
       .getPageContent('admin');
   }
-  
 
   // ── Password Modal ──
   function showPasswordModal() {
@@ -743,25 +904,26 @@
   }
 
   function verifyPassword() {
+    var str = uiStrings[currentLang];
     var pwd = document.getElementById('adminPwdInput').value.trim();
     if (!pwd) {
-      document.getElementById('pwdError').textContent = 'Please enter a password';
+      document.getElementById('pwdError').textContent = str.modalPwdEmpty;
       document.getElementById('adminPwdInput').classList.add('error');
       return;
     }
 
     var btn = document.getElementById('pwdSubmitBtn');
     btn.disabled = true;
-    btn.textContent = 'Verifying...';
+    btn.textContent = str.modalVerifying;
 
     google.script.run
       .withSuccessHandler(function(valid) {
         btn.disabled = false;
-        btn.textContent = 'Access';
+        btn.textContent = str.modalAccess;
         if (valid) {
           goToAdmin();
         } else {
-          document.getElementById('pwdError').textContent = 'Incorrect password';
+          document.getElementById('pwdError').textContent = str.modalPwdWrong;
           document.getElementById('adminPwdInput').classList.add('error');
           document.getElementById('adminPwdInput').value = '';
           document.getElementById('adminPwdInput').focus();
@@ -769,7 +931,7 @@
       })
       .withFailureHandler(function(err) {
         btn.disabled = false;
-        btn.textContent = 'Access';
+        btn.textContent = str.modalAccess;
         document.getElementById('pwdError').textContent = 'Error: ' + (err.message || 'Try again');
       })
       .verifyAdminPassword(pwd);
@@ -797,4 +959,3 @@
 
 </body>
 </html>
-

@@ -344,10 +344,21 @@
       </div>
 
       <!-- LANDING PAGE SETTINGS -->
+      
+      
+            <!-- LANDING PAGE SETTINGS -->
       <div style="background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:28px;margin-top:20px;">
         <h3 style="font-size:18px;font-weight:700;color:#1e293b;margin-bottom:6px;">🏠 Landing Page Settings</h3>
         <p style="font-size:13px;color:#64748b;margin-bottom:20px;">Customize the landing page that visitors see first</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="settingsGrid">
+
+        <!-- EN / AR Tabs -->
+        <div style="display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid #e2e8f0;">
+          <button id="landTabEN" onclick="switchLandingTab('en')" style="padding:10px 24px;font-size:14px;font-weight:600;border:none;cursor:pointer;background:transparent;color:#1e40af;border-bottom:2px solid #1e40af;margin-bottom:-2px;transition:all 0.3s;">🇬🇧 English</button>
+          <button id="landTabAR" onclick="switchLandingTab('ar')" style="padding:10px 24px;font-size:14px;font-weight:600;border:none;cursor:pointer;background:transparent;color:#94a3b8;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.3s;">🇸🇦 Arabic</button>
+        </div>
+
+        <!-- ENGLISH SETTINGS -->
+        <div id="landingEN" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
           <div style="grid-column:span 2;">
             <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Organization Name</label>
@@ -422,8 +433,58 @@
 
         </div>
 
+        <!-- ARABIC SETTINGS -->
+        <div id="landingAR" style="display:none;">
+          <p style="font-size:13px;color:#64748b;margin-bottom:16px;background:#fef3c7;padding:10px 14px;border-radius:8px;border:1px solid #fde68a;">
+            ⚡ Only text fields need Arabic values. Colors, images, and password are shared from the English settings.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+            <div style="grid-column:span 2;">
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Organization Name (Arabic) — اسم المنظمة</label>
+              <input type="text" id="set_ar_orgName" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="جمهورية فيريديان">
+            </div>
+
+            <div style="grid-column:span 2;">
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Tagline (Arabic) — الشعار</label>
+              <input type="text" id="set_ar_tagline" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="نظام طلب التأشيرة الإلكترونية">
+            </div>
+
+            <div style="grid-column:span 2;">
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Hero Title (Arabic) — العنوان الرئيسي</label>
+              <input type="text" id="set_ar_heroTitle" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="مرحباً بكم في بوابة التأشيرات الرسمية">
+            </div>
+
+            <div style="grid-column:span 2;">
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Hero Subtitle (Arabic) — العنوان الفرعي</label>
+              <input type="text" id="set_ar_heroSubtitle" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="معالجة سريعة وآمنة وشفافة للتأشيرات">
+            </div>
+
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Apply Button (Arabic) — زر التقديم</label>
+              <input type="text" id="set_ar_portalButtonText" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="تقديم طلب تأشيرة">
+            </div>
+
+            <div>
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Admin Button (Arabic) — زر الإدارة</label>
+              <input type="text" id="set_ar_adminButtonText" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="بوابة الإدارة">
+            </div>
+
+            <div style="grid-column:span 2;">
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Footer Text (Arabic) — نص التذييل</label>
+              <input type="text" id="set_ar_footerText" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="© 2026 جمهورية فيريديان — الهجرة ومراقبة الحدود">
+            </div>
+
+            <div style="grid-column:span 2;">
+              <label style="display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px;">Announcement (Arabic) — الإعلان <span style="color:#94a3b8;font-weight:400;">(فارغ = مخفي)</span></label>
+              <input type="text" id="set_ar_announcementText" dir="rtl" style="width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;font-family:'Segoe UI',Tahoma,sans-serif;" placeholder="مثال: أنواع تأشيرات جديدة متاحة!">
+            </div>
+
+          </div>
+        </div>
+
         <div style="display:flex;gap:12px;margin-top:24px;align-items:center;">
-          <button onclick="saveLandingSettings()" style="padding:12px 28px;background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s;">
+          <button onclick="saveLandingSettingsAll()" style="padding:12px 28px;background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s;">
             💾 Save Landing Settings
           </button>
           <span id="settingsSaveStatus" style="color:#059669;font-size:14px;font-weight:500;"></span>
@@ -533,15 +594,32 @@
       btn.classList.add('active');loadApplications(f);
     }
 
+  
+    // ============ Landing Page Settings ============
 
+  var currentLandingTab = 'en';
 
-
-  // ============ Landing Page Settings ============
+  function switchLandingTab(tab) {
+    currentLandingTab = tab;
+    document.getElementById('landingEN').style.display = tab === 'en' ? 'grid' : 'none';
+    document.getElementById('landingAR').style.display = tab === 'ar' ? 'block' : 'none';
+    // Tab styling
+    var enTab = document.getElementById('landTabEN');
+    var arTab = document.getElementById('landTabAR');
+    enTab.style.color = tab === 'en' ? '#1e40af' : '#94a3b8';
+    enTab.style.borderBottomColor = tab === 'en' ? '#1e40af' : 'transparent';
+    arTab.style.color = tab === 'ar' ? '#1e40af' : '#94a3b8';
+    arTab.style.borderBottomColor = tab === 'ar' ? '#1e40af' : 'transparent';
+  }
 
   function loadLandingSettings() {
     google.script.run
-      .withSuccessHandler(function(s) {
-        if (!s) return;
+      .withSuccessHandler(function(all) {
+        if (!all) return;
+        var s = all.en || {};
+        var a = all.ar || {};
+
+        // Populate EN fields
         var fields = ['orgName','tagline','heroTitle','heroSubtitle','heroImageUrl',
                        'logoUrl','adminPassword','announcementText','portalButtonText',
                        'adminButtonText','footerText'];
@@ -557,6 +635,15 @@
           document.getElementById('set_accentColor').value = s.accentColor;
           document.getElementById('set_accentColorText').value = s.accentColor;
         }
+
+        // Populate AR fields
+        var arFields = ['orgName','tagline','heroTitle','heroSubtitle',
+                        'portalButtonText','adminButtonText','footerText','announcementText'];
+        arFields.forEach(function(f) {
+          var el = document.getElementById('set_ar_' + f);
+          if (el && a[f] !== undefined) el.value = a[f];
+        });
+
         // Sync color pickers with text inputs
         document.getElementById('set_primaryColor').addEventListener('input', function() {
           document.getElementById('set_primaryColorText').value = this.value;
@@ -574,45 +661,79 @@
       .withFailureHandler(function(err) {
         console.error('Failed to load landing settings:', err);
       })
-      .getLandingSettings();
+      .getAllLandingSettings();
   }
 
-  function saveLandingSettings() {
-    var s = {};
+  function saveLandingSettingsAll() {
+    // Gather EN settings
+    var en = {};
     var fields = ['orgName','tagline','heroTitle','heroSubtitle','heroImageUrl',
                    'logoUrl','adminPassword','announcementText','portalButtonText',
                    'adminButtonText','footerText'];
     fields.forEach(function(f) {
       var el = document.getElementById('set_' + f);
-      if (el) s[f] = el.value.trim();
+      if (el) en[f] = el.value.trim();
     });
-    s.primaryColor = document.getElementById('set_primaryColor').value;
-    s.accentColor = document.getElementById('set_accentColor').value;
+    en.primaryColor = document.getElementById('set_primaryColor').value;
+    en.accentColor = document.getElementById('set_accentColor').value;
+
+    // Gather AR settings
+    var ar = {};
+    var arFields = ['orgName','tagline','heroTitle','heroSubtitle',
+                    'portalButtonText','adminButtonText','footerText','announcementText'];
+    arFields.forEach(function(f) {
+      var el = document.getElementById('set_ar_' + f);
+      if (el) ar[f] = el.value.trim();
+    });
 
     var status = document.getElementById('settingsSaveStatus');
     status.textContent = 'Saving...';
     status.style.color = '#3b82f6';
 
+    var done = 0;
+    var errors = [];
+
+    function checkDone() {
+      done++;
+      if (done < 2) return;
+      if (errors.length === 0) {
+        status.textContent = '✓ EN + AR settings saved!';
+        status.style.color = '#059669';
+        setTimeout(function() { status.textContent = ''; }, 3000);
+      } else {
+        status.textContent = '✗ ' + errors.join('; ');
+        status.style.color = '#ef4444';
+      }
+    }
+
+    // Save EN
     google.script.run
-      .withSuccessHandler(function(result) {
-        if (result && result.success) {
-          status.textContent = '✓ Settings saved!';
-          status.style.color = '#059669';
-          setTimeout(function() { status.textContent = ''; }, 3000);
-        } else {
-          status.textContent = '✗ Failed to save';
-          status.style.color = '#ef4444';
-        }
+      .withSuccessHandler(function(r) {
+        if (!r || !r.success) errors.push('EN save failed');
+        checkDone();
       })
       .withFailureHandler(function(err) {
-        status.textContent = '✗ ' + (err.message || 'Error');
-        status.style.color = '#ef4444';
+        errors.push('EN: ' + (err.message || 'Error'));
+        checkDone();
       })
-      .saveLandingSettings(s);
+      .saveLandingSettings(en);
+
+    // Save AR
+    google.script.run
+      .withSuccessHandler(function(r) {
+        if (!r || !r.success) errors.push('AR save failed');
+        checkDone();
+      })
+      .withFailureHandler(function(err) {
+        errors.push('AR: ' + (err.message || 'Error'));
+        checkDone();
+      })
+      .saveLandingSettingsAR(ar);
   }
 
   // Load landing settings when page loads
   loadLandingSettings();
+  
 
     function filterLocalApps(){
       var term=document.getElementById('searchInput').value.toLowerCase();
@@ -856,4 +977,3 @@
   </script>
 </body>
 </html>
-

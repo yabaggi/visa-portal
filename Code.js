@@ -26,8 +26,13 @@ function doGet(e) {
 }
 
 
+
+
+
 function initializeSheets() {
   var ss = SpreadsheetApp.openById(SS_ID);
+  
+  // 1) Applications sheet
   var appSheet = ss.getSheetByName("Applications");
   if (!appSheet) {
     appSheet = ss.insertSheet("Applications");
@@ -43,18 +48,38 @@ function initializeSheets() {
     ]);
     appSheet.getRange(1, 1, 1, 26).setFontWeight("bold");
   }
+
+  // 2) FieldSettings sheet (form field visibility/required config)
+  var fieldSheet = ss.getSheetByName("FieldSettings");
+  if (!fieldSheet) {
+    fieldSheet = ss.insertSheet("FieldSettings");
+    fieldSheet.appendRow(["FieldID", "Visible", "Required"]);
+    fieldSheet.getRange(1, 1, 1, 3).setFontWeight("bold");
+    var defaults = getDefaultFieldConfig();
+    for (var i = 0; i < defaults.length; i++) {
+      fieldSheet.appendRow([defaults[i].id, defaults[i].visible ? "TRUE" : "FALSE", defaults[i].required ? "TRUE" : "FALSE"]);
+    }
+  }
+
+  // 3) Settings sheet (EN landing page key-value pairs)
   var settingsSheet = ss.getSheetByName("Settings");
   if (!settingsSheet) {
     settingsSheet = ss.insertSheet("Settings");
-    settingsSheet.appendRow(["FieldID", "Visible", "Required"]);
-    settingsSheet.getRange(1, 1, 1, 3).setFontWeight("bold");
-    var defaults = getDefaultFieldConfig();
-    for (var i = 0; i < defaults.length; i++) {
-      settingsSheet.appendRow([defaults[i].id, defaults[i].visible ? "TRUE" : "FALSE", defaults[i].required ? "TRUE" : "FALSE"]);
-    }
+    settingsSheet.appendRow(["key", "value"]);
+    settingsSheet.getRange(1, 1, 1, 2).setFontWeight("bold");
   }
+
+  // 4) SettingsAR sheet (AR landing page key-value pairs)
+  var settingsAR = ss.getSheetByName("SettingsAR");
+  if (!settingsAR) {
+    settingsAR = ss.insertSheet("SettingsAR");
+    settingsAR.appendRow(["key", "value"]);
+    settingsAR.getRange(1, 1, 1, 2).setFontWeight("bold");
+  }
+
   return "Sheets initialized.";
 }
+
 
 function getDefaultFieldConfig() {
   return [
@@ -238,6 +263,74 @@ function saveLandingSettings(settings) {
   
   return {success: true};
 }
+function getLandingSettingsAR() {
+  var ss = SpreadsheetApp.openById(SS_ID);
+  var sheet = ss.getSheetByName("SettingsAR");
+
+  if (!sheet) {
+    sheet = ss.insertSheet("SettingsAR");
+    var defaults = [
+      ["key", "value"],
+      ["orgName", "جمهورية فيريديان"],
+      ["tagline", "نظام طلب التأشيرة الإلكترونية"],
+      ["heroTitle", "مرحباً بكم في بوابة التأشيرات الرسمية"],
+      ["heroSubtitle", "معالجة سريعة وآمنة وشفافة للتأشيرات للمسافرين حول العالم"],
+      ["portalButtonText", "تقديم طلب تأشيرة"],
+      ["adminButtonText", "بوابة الإدارة"],
+      ["footerText", "© 2026 جمهورية فيريديان — الهجرة ومراقبة الحدود"],
+      ["announcementText", ""]
+    ];
+    sheet.getRange(1, 1, defaults.length, 2).setValues(defaults);
+    sheet.setColumnWidth(1, 200);
+    sheet.setColumnWidth(2, 500);
+    sheet.getRange(1, 1, 1, 2).setFontWeight("bold").setBackground("#e2e8f0");
+  }
+
+  var data = sheet.getDataRange().getValues();
+  var settings = {};
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0]) {
+      settings[data[i][0]] = data[i][1] || "";
+    }
+  }
+  return settings;
+}
+
+function saveLandingSettingsAR(settings) {
+  var ss = SpreadsheetApp.openById(SS_ID);
+  var sheet = ss.getSheetByName("SettingsAR");
+
+  if (!sheet) {
+    getLandingSettingsAR(); // Creates sheet with defaults
+    sheet = ss.getSheetByName("SettingsAR");
+  }
+
+  var data = sheet.getDataRange().getValues();
+
+  for (var key in settings) {
+    var found = false;
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === key) {
+        sheet.getRange(i + 1, 2).setValue(settings[key]);
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      sheet.appendRow([key, settings[key]]);
+    }
+  }
+
+  return { success: true };
+}
+
+function getAllLandingSettings() {
+  return {
+    en: getLandingSettings(),
+    ar: getLandingSettingsAR()
+  };
+}
+
 
 function verifyAdminPassword(password) {
   var settings = getLandingSettings();
@@ -478,5 +571,6 @@ function deleteApplication(appId) {
     return {success: false, error: err.toString()};
   }
 }
+
 
 
